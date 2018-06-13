@@ -1,0 +1,29 @@
+body{
+    background: url('../images/bg.jpeg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.logo_start{
+    padding-top: 150px;
+    width: 600px;
+    margin: auto;
+}
+
+.object {
+    animation: MoveUpDown 2s linear infinite;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+
+@keyframes MoveUpDown {
+    0%, 100% {
+        bottom: 0;
+    }
+    50% {
+        bottom: 40px;
+    }
+}
