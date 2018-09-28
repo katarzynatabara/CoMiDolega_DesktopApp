@@ -29,16 +29,50 @@
 
     var h1 = $('h1').text('Witaj ' + user + ' !');
 
-
-
-    //if (user.length == 0) {
-    //    window.location.replace('../index.html');
-    //} else {
-    //    alert('Witaj ' + user + ' na stronie badanie')
-    //}
+    (function() {
+        var api = "http://comidolega.net.pl/api/symptomslist";
+        $.getJSON( api, {
+            format: "json"
+        })
+            .done(function( data ) {
+                console.log(data);
+            });
+    })();
 
 </script>
 
+
+<form>
+    <div>
+        <label> 1 objaw</label>
+        <input type="checkbox"/>
+    </div>
+    <div>
+        <label> 2 objaw</label>
+        <input type="checkbox"/>
+    </div>
+    <div>
+        <label> 3 objaw</label>
+        <input type="checkbox"/>
+    </div>
+    <div>
+        <label> 4 objaw</label>
+        <input type="checkbox"/>
+    </div>
+    <div>
+        <label> 5 objaw</label>
+        <input type="checkbox"/>
+    </div>
+    <div>
+        <label> 6 objaw</label>
+        <input type="checkbox"/>
+    </div>
+    <div>
+        <label> 7 objaw</label>
+        <input type="checkbox"/>
+    </div>
+    <input type="submit"/>
+</form>
 
 </body>
 </html>
