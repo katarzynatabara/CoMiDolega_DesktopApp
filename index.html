@@ -32,7 +32,6 @@
                     <button type="button" id="registry" class="btn-lg btn-success">Rejestracja</button>
                     <button type="button" id="firstLoginButton" class="btn-lg btn-info" data-toggle="modal" data-target="#exampleModal">Zaloguj się</button>
                     <button type="button" id="logout" class="btn-lg btn-info" style="margin-left: 130px; display: none">Wyloguj się</button>
-
                 </div>
             </div>
         </div>
@@ -86,10 +85,12 @@
             $('#firstLoginButton').css('display', 'none');
             $('#logout').css('display', 'block');
             $('#registry').css('display', 'none');
+            $('#study').css('display', 'block');
         } else {
             $('#firstLoginButton').css('display', 'block');
             $('#logout').css('display', 'none');
             $('#registry').css('display', 'block');
+            $('#study').css('display', 'none');
         }
         login();
 

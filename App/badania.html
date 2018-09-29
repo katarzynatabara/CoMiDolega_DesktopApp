@@ -19,60 +19,54 @@
 </head>
 <body>
 
-<div>
+<div class="container text-center">
     <h1 style="color: white"></h1>
+    <h2>
+        Zaznacz i wyślij listę twoich dolegliwości a my zdiagnozujemy prawdopodobną chorobę która cię dotknęła
+    </h2>
+    <form>
+
+        <script>
+
+            var user= sessionStorage.getItem('user');
+
+            var h1 = $('h1').text('Witaj ' + user + ' !');
+
+            (function() {
+                var api = "http://comidolega.net.pl/api/symptomslist";
+                $.getJSON( api, {
+                    format: "json"
+                })
+                    .done(function( data ) {
+                        var symptoms = data['result'];
+
+                        for (var i = 0; i<symptoms.length; i++) {
+                            $('form').append('<div class="symptoms"><label>' + symptoms[i].symptoms + '</label><input type="checkbox" value="'+symptoms[i].symptoms+'"></div>');
+                        }
+
+                        $('form').append('<input class="btn-lg btn-success" type="submit" value="sprawdź co ci dolega"/>')
+
+                    });
+            })();
+
+        </script>
+
+    </form>
+
 </div>
 
-<script>
-
-    var user= sessionStorage.getItem('user');
-
-    var h1 = $('h1').text('Witaj ' + user + ' !');
-
-    (function() {
-        var api = "http://comidolega.net.pl/api/symptomslist";
-        $.getJSON( api, {
-            format: "json"
-        })
-            .done(function( data ) {
-                console.log(data);
-            });
-    })();
-
-</script>
-
-
-<form>
-    <div>
-        <label> 1 objaw</label>
-        <input type="checkbox"/>
-    </div>
-    <div>
-        <label> 2 objaw</label>
-        <input type="checkbox"/>
-    </div>
-    <div>
-        <label> 3 objaw</label>
-        <input type="checkbox"/>
-    </div>
-    <div>
-        <label> 4 objaw</label>
-        <input type="checkbox"/>
-    </div>
-    <div>
-        <label> 5 objaw</label>
-        <input type="checkbox"/>
-    </div>
-    <div>
-        <label> 6 objaw</label>
-        <input type="checkbox"/>
-    </div>
-    <div>
-        <label> 7 objaw</label>
-        <input type="checkbox"/>
-    </div>
-    <input type="submit"/>
-</form>
-
+<style>
+    h2 {
+        margin-top: 20px;
+        font-size: 20px;
+    }
+    .symptoms {
+        color: #2b542c;
+        font-size:16px;
+    }
+    form {
+        margin: 20px;
+    }
+</style>
 </body>
 </html>
