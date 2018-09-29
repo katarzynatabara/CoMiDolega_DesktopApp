@@ -29,26 +29,9 @@
 
                 <div class="col-md-4 col-md-offset-4 text-center">
                     <button type="button" id="study" class="btn-lg btn-success" data-toggle="modal" data-target="#badanie">Badaj sie!</button>
-                    <button type="button" id="registry" class="btn-lg btn-success">Rejestracja</button>
+                    <button type="button" id="registry" data-toggle="modal" data-target="#registryModal" class="btn-lg btn-success">Rejestracja</button>
                     <button type="button" id="firstLoginButton" class="btn-lg btn-info" data-toggle="modal" data-target="#exampleModal">Zaloguj się</button>
                     <button type="button" id="logout" class="btn-lg btn-info" style="margin-left: 130px; display: none">Wyloguj się</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="formularz">
-        <div class="modal fade" id="badanie" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <form>
-                            <div id="#wywiad" class="form-group">
-
-                            </div>
-                            <button type="submit" class="btn btn-primary btn-lg btn-block">DALEJ</button>
-                        </form>
-                    </div>
                 </div>
             </div>
         </div>
@@ -76,12 +59,33 @@
         </div>
     </div>
 
+    <div id="rejestracja">
+        <div class="modal fade" id="registryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="username">Nazwa Uzytkownika</label>
+                            <input type="text" class="form-control" id="userLogin" aria-describedby="emailHelp" placeholder="Enter email">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Hasło</label>
+                            <input type="password" class="form-control" id="userPassword" placeholder="Podaj swoje hasło">
+                            <label for="password">Powtórz hasło</label>
+                            <input type="password" class="form-control" id="repeatedPassword" placeholder="Powtórz swoje hasło">
+                        </div>
+                        <button id="registryBtn" class="btn btn-primary btn-lg btn-block">Zarejestruj się!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 <script>
 
     $(document).ready(function () {
 
-
-        if (sessionStorage.getItem('user') != null) {
+        if (sessionStorage.getItem('user') != null && sessionStorage.getItem('user') != undefined ) {
             $('#firstLoginButton').css('display', 'none');
             $('#logout').css('display', 'block');
             $('#registry').css('display', 'none');
@@ -93,6 +97,33 @@
             $('#study').css('display', 'none');
         }
         login();
+
+        var registryBtn = $('#registryBtn');
+
+        registryBtn.click(function() {
+
+            data = [];
+
+            var userLogin = $('#userLogin').val();
+            var password = $('#userPassword').val();
+            var repeatedPassword = $('#repeatedPassword');
+
+            var data = {
+                "username": userLogin,
+                "password": password
+            };
+
+                $.ajax({
+                    type: "POST",
+                    url: 'http://comidolega.net.pl/api/register',
+                    data: JSON.stringify(data),
+                    dataType: "json",
+                    success: function(result) {
+                        alert('Został stworzony użytkownik gratuluję!');
+                    }
+                });
+
+        });
 
         function login() {
 
@@ -124,72 +155,10 @@
                     data: JSON.stringify(data),
                     dataType: "json",
                     success: function(result) {
-                        //window.location.replace('./App/badania.html');
                     }
                 });
-
             });
         }
-
-        // $.ajax({
-        //     url: 'http://comidolega.net.pl/api/health',
-        //     headers: {
-        //         'Content-Type': 'application/x-www-form-urlencoded',
-        //         'Access-Control-Allow-Origin': '*',
-        //         'Access-Control-Allow-Headers': '*',
-        //         'Access-Control-Allow-Methods': '*'
-        //     },
-        //     type: "POST", /* or type:"GET" or type:"PUT" */
-        //     dataType: "json",
-        //     data: {
-        //     },
-        //     success: function (result) {
-        //         console.log(result);
-        //     },
-        //     error: function () {
-        //         console.log("error");
-        //     }
-        // });
-
-        // $.ajax({
-        //     type: "POST",
-        //     url: 'http://comidolega.net.pl/api/health',
-        //     data: {email: "test@test.pl", pass: "test" },
-        //     dataType: "json",
-        //
-        //     success: function(result) {
-        //         console.log(result)
-        //     }
-        // });
-
-        // $.ajax({
-        //     type: 'GET',
-        //     url: 'http://comidolega.net.pl/api/health/',
-        //     headers: {
-        //         'Content-Type': 'application/x-www-form-urlencoded',
-        //         'Access-Control-Allow-Origin': '*',
-        //         'Access-Control-Allow-Headers': '*',
-        //         'Access-Control-Allow-Methods': '*'
-        //     },
-        //     success: function (data) {
-        //         var row;
-        //
-        //         console.log(data);
-        //
-        //         for (i = 0; i < data.length; i++) {
-        //             console.log(i);
-        //             console.log(data[i]);
-        //         }
-        //         $.data.each(function( index ) {
-        //             row += "<div class='checkbox'><input type=\"checkbox\" name=\"vehicle\" value=\"Bike\"> I have a bike </div>";
-        //             console.log(this);
-        //         });
-        //
-        //         $('#wywiad').append(row);
-        //     }
-        // });
-
-
     });
 
 </script>

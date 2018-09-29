@@ -24,36 +24,63 @@
     <h2>
         Zaznacz i wyślij listę twoich dolegliwości a my zdiagnozujemy prawdopodobną chorobę która cię dotknęła
     </h2>
-    <form>
+    <div id="form">
+    </div>
 
-        <script>
-
-            var user= sessionStorage.getItem('user');
-
-            var h1 = $('h1').text('Witaj ' + user + ' !');
-
-            (function() {
-                var api = "http://comidolega.net.pl/api/symptomslist";
-                $.getJSON( api, {
-                    format: "json"
-                })
-                    .done(function( data ) {
-                        var symptoms = data['result'];
-
-                        for (var i = 0; i<symptoms.length; i++) {
-                            $('form').append('<div class="symptoms"><label>' + symptoms[i].symptoms + '</label><input type="checkbox" value="'+symptoms[i].symptoms+'"></div>');
-                        }
-
-                        $('form').append('<input class="btn-lg btn-success" type="submit" value="sprawdź co ci dolega"/>')
-
-                    });
-            })();
-
-        </script>
-
-    </form>
+    <a id="test" href="#">WYSLIJ </a>
 
 </div>
+
+<script>
+
+    var user= sessionStorage.getItem('user');
+
+    var h1 = $('h1').text('Witaj ' + user + ' !');
+
+    (function() {
+        var api = "http://comidolega.net.pl/api/symptomslist";
+        $.getJSON( api, {
+            format: "json"
+        })
+            .done(function( data ) {
+                var symptoms = data['result'];
+
+                for (var i = 0; i<symptoms.length; i++) {
+                    $('#form').append('<div class="symptoms"><label>' + symptoms[i].symptoms + '</label><input type="checkbox" value="'+symptoms[i].symptoms+'"></div>');
+                }
+
+//                $('#form').append('<input type="submit" id="send" class="btn-lg btn-success" value="sprawdź co ci dolega"/>')
+
+            });
+    })();
+
+    $(document).ready(function () {
+
+        var submitBtn = $('#test');
+
+        var symptoms = [];
+
+        submitBtn.click(function() {
+            $('input[type="checkbox"]').each(function(){
+                if (this.checked) {
+                    symptoms.push(this.value);
+                }
+            });
+
+            $.ajax({
+                type: "POST",
+                url: 'http://comidolega.net.pl/api/checksymptoms',
+                data: JSON.stringify(symptoms),
+                dataType: "json",
+                success: function(result) {
+                    console.log(result);
+                }
+            });
+        });
+
+    });
+
+</script>
 
 <style>
     h2 {
